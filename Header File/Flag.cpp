@@ -17,6 +17,16 @@ Flag::Flag()
     timer->start(100);
 }
 
+void Flag::setState(bool alive)
+{
+    state = alive;
+}
+
+bool Flag::getState()
+{
+    return state;
+}
+
 void Flag::gameOver()
 {
     // 先取得兩者相碰的清單

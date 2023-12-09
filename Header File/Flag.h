@@ -13,7 +13,7 @@ class Flag : public QObject , public QGraphicsPixmapItem
     Q_PROPERTY(bool state READ getState WRITE setState)
 public:
     Flag();
-    void setState(bool state);
+    void setState(bool alive);
     bool getState();
 
 public slots:
