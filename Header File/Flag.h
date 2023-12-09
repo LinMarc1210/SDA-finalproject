@@ -24,7 +24,7 @@ signals:
     // 自己的子彈打到也算
 
 private:
-    bool state = true;
+    bool state;
     QTimer *timer;
 };
 

@@ -4,9 +4,11 @@
 #include <QGraphicsScene>
 #include <QList>
 #include <QTimer>
+#include <QDebug>
 
 Flag::Flag()
 {
+    state = true;
     setPixmap(QPixmap(":/image/flag.png"));
     // setPos(rand() % int(800 - boundingRect().width()), rand() % int(600 - boundingRect().height()));    //food 位置隨機出現
 
@@ -37,10 +39,11 @@ void Flag::gameOver()
         Bullet *bullet = dynamic_cast<Bullet*> (item);
         // 如果錦旗被打，發出一個訊號通知
         if (bullet) {
+            state = false;
             //emit: 用來發出 signal 通知 Scene
             emit hitByEnemy(this, bullet);
             scene()->removeItem(this);
-            qDebug() << "Food is eaten...";
+            qDebug() << "Game over...";
             delete this;
         }
     }
