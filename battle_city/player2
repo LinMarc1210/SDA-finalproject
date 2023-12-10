@@ -1,0 +1,7 @@
+#include "player2"
+
+player2::player2(QObject *parent)
+    : QObject{parent}
+{
+
+}

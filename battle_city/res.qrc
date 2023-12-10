@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/sounds"/>
+    <qresource prefix="/images">
+        <file>background.jpg</file>
+        <file>bullet.png</file>
+        <file>enemy.png</file>
+        <file>player_1.png</file>
+        <file>armor_tank.png</file>
+        <file>basic_tank.png</file>
+        <file>fast_tank.png</file>
+        <file>power_tank.png</file>
+        <file>player2.png</file>
+    </qresource>
+</RCC>
