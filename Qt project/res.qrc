@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>Battlecity_bigword.jpg</file>
+        <file>Oneplayer.jpg</file>
+        <file>Solid_black.png</file>
+        <file>Twoplayer.jpg</file>
+        <file>Level_chose.png</file>
+        <file>Player1_new.png</file>
+    </qresource>
+</RCC>
