@@ -12,10 +12,11 @@ public:
     explicit Scene(QObject *parent = nullptr);
     ~Scene();
     void startGame();
-
     bool getGameOn() const;
     void setGameOn(bool newGameOn);
-    void setPlayer();
+    void setPlayer(int player);
+    void setLevel();
+
 
 signals:
 
@@ -23,12 +24,16 @@ private:
     bool gameOn;
     int score;
     int bestScore;
+    int player;
+    int level;
 
     //在QGraphicsScene中就有PixmapItem, TextItem
     QGraphicsPixmapItem *battleCityBigWord;
     QGraphicsPixmapItem *onePlayer;
     QGraphicsPixmapItem *twoPlayer;
+    QGraphicsPixmapItem *levelChose;
     QGraphicsTextItem *scoreTextItem;
+    QGraphicsTextItem *levelTextItem;
 
     // QGraphicsScene interface
 protected:
