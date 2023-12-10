@@ -21,3 +21,8 @@ Widget::~Widget()
     delete scene;
 }
 
+void Widget::on_startGameButton_clicked()
+{
+    scene->startGame();
+    ui->graphicsView->setFocus();
+}
