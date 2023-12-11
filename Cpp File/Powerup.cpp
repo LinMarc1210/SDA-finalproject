@@ -6,17 +6,9 @@ PowerUp::PowerUp(QGraphicsItem *parent)
     : QGraphicsPixmapItem(parent) {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
-    const int gridSizeX = 10; // Number of columns in the grid
-    const int gridSizeY = 5;  // Number of rows in the grid
 
-    // Calculate a random position within the grid
-    int gridX = std::rand() % gridSizeX;
-    int gridY = std::rand() % gridSizeY;
-
-    // Calculate the actual position based on the grid position and cell size
-    int xPos = gridX * (800 / gridSizeX); // Assuming the scene width is 800
-    int yPos = gridY * (600 / gridSizeY); // Assuming the scene height is 600
-
+    int xPos = std::rand() % 700;
+    int yPos = std::rand() % 500;
     setPos(xPos, yPos);
 
     type = rand() % 6;
