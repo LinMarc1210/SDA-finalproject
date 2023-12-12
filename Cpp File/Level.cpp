@@ -1,31 +1,27 @@
 #include "Level.h"
 #include "Wall.h"
-#include <ostream>
-#include <vector>
-
-using namespace std;
+#include "Flag.h"
+#include "Enemy.h"
 
 Level::Level(int level, int number)
 {
-
-    setPlayer(number); //決定幾個玩家並生成在初始位置
+    setPlayer(number); //決定幾個玩家並生成在初始位置 //到底是給誰寫?
     generateMap(level);
+    showSurvivor(remains);
 
+    vector<vector<char>> tanks = {
+        {'f', 'f', 'f', 'f', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'b', 'b', 'b', 'b', 'p', 'p', 'p', 'p'},
+        {'p', 'p', 'p', 'p', 'f', 'f', 'f', 'f', 'f', 'f', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'b', 'b'}
+    };
+    setTankRemainsVector(tanks);
 
-    //定時生成enemy，然後再call
-    spawnTimer = new QTimer();
-    connect(spawnTimer, &QTimer::timeout, this, &Level::generateEnemy();
-    spawnTimer->start(50);
+    //定時生成enemy(call generateEnemy)
+    spawnTimer = new QTimer(this);
+    connect(spawnTimer, &QTimer::timeout, this, [this, level](){
+        generateEnemy(level);
+    });
+    spawnTimer->start(2000);
 
-
-//生成初始ramaining survivors，共20台，10*2
-    for (int i=1; i<=10; i++){
-        for (int j=1; j<=2; j++){
-            survivors = new QGraphicsPixmapItem(QPixmap(":/Images/Enemies/Remains.png"));
-            survivors->setPos(740+i*10, 60+j*5);
-            addItem(survivors);
-        }
-    }
 }
 
 void Level::setPlayer(int number)
@@ -50,16 +46,63 @@ void Level::generateMap(int level)
     //map 19
     vector<string> data;
 
-    if (level == 1) {
+    if (level == 1) {        
         data = {
-            "*&*&*",
-            "$#***",
-            "&*###",
-            "$$$$$",
-            "##$#$"
+            "****####****####****####****####****####****####****",//layer1
+            "****####****####****####****####****####****####****",
+            "****####****####****####****####****####****####****",
+            "****####****####****####****####****####****####****",
+            "****####****####****####****####****####****####****",
+            "****####****####****####****####****####****####****",
+            "****####****####****####****####****####****####****",
+            "****####****####****####****####****####****####****",
+            "****####****####****####****####****####****####****",
+            "****&&&&****&&&&****&&&&****&&&&****&&&&****&&&&****",
+            "****&&&&****&&&&****&&&&****&&&&****&&&&****&&&&****",
+            "****************************************************",
+            "****************************************************",
+            "****************####************####****************",//layer2
+            "****************####************####****************",
+            "####****####****####************####****####****####",
+            "####****####****####************####****####****####",
+            "####****############****####****############****####",
+            "####****############****####****############****####",
+            "####****####****####****####****####****####****####",
+            "####****####****####****####****####****####****####",
+            "&&&&****&&&&****&&&&****&&&&****&&&&****&&&&****&&&&",
+            "&&&&****&&&&****&&&&****&&&&****&&&&****&&&&****&&&&",
+            "****************&&&&************&&&&****************",
+            "****************&&&&************&&&&****************",
+            "%%%%%%%%********####****%%%%****####********%%%%%%%%",//layer3
+            "%%%%%%%%********####****%%%%****####********%%%%%%%%",
+            "%%%%%%%%********####****%%%%****####********%%%%%%%%",
+            "%%%%%%%%********####****%%%%****####********%%%%%%%%",
+            "%%%%%%%%%%%%%%%%########%%%%########%%%%%%%%%%%%%%%%",
+            "%%%%%%%%%%%%%%%%########%%%%########%%%%%%%%%%%%%%%%",
+            "%%%%%%%%%%%%%%%%####****%%%%****####%%%%%%%%%%%%%%%%",
+            "%%%%%%%%%%%%%%%%####****%%%%****####%%%%%%%%%%%%%%%%",
+            "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+            "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+            "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+            "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+            "****************####%%%%%%%%%%%%####****************",
+            "****************####%%%%%%%%%%%%####****************",
+            "####****####****####%%%%%%%%%%%%####****####****####",
+            "####****####****####%%%%%%%%%%%%####****####****####",
+            "****####****####********%%%%********####****####****",//layer4
+            "****####****####********%%%%********####****####****",
+            "****####****####********%%%%********####****####****",
+            "****####****####********************####****####****",
+            "****####****####********************####****####****",
+            "****####****####****############****####****####****",
+            "****####****####****############****####****####****",
+            "****####****####****####f***####****####****####****",
+            "****####****####****####****####****####****####****",
+            "********************####****####********************",
+            "********************####****####********************"
         };
     } else {
-    /map 28
+        //map 28
         data = {
             "*&*&*",
             "$#***",
@@ -68,6 +111,7 @@ void Level::generateMap(int level)
             "##$#$"
         };
     }
+
     //存成二維陣列
     vector<vector<char>> matrix;
     for (const string& row : data) {
@@ -75,8 +119,8 @@ void Level::generateMap(int level)
         matrix.push_back(rowVector);
     }
 
-    int i = 0;
-    int j = 0;
+    float i = 0;
+    float j = 0;
 
     //setPos
     for (const auto& rowVector : matrix) {
@@ -107,10 +151,8 @@ void Level::generateMap(int level)
                 addItem(wall);
                 wall->setPos(i, j);
                 i+=800/52; //這裡還要再根據圖片大小做調整
-            } else if (element == '^') {
-                Wall *wall = new Wall('f');
-                addItem(wall);
-                wall->setPos(i, j);
+            } else if (element == 'f') {
+                Flag *flag;
                 i+=800/52; //這裡還要再根據圖片大小做調整
             } else {
                 continue;  //空白，不用放東西
@@ -120,60 +162,46 @@ void Level::generateMap(int level)
         j += 800/52;       //這裡還要再根據圖片大小做調整
     }
 }
-/*
-    //另一寫法
-    if (level==1){
-        //layer 1
-        for (int i=1; i<=10; i++){
-            for(int j=1; j<=52; j++){
-                if(j%4==1){
-                    j+=4;
 
-                }else{
-                    if(i>8){
-                        Wall *wall = new Wall('b');
-                        addItem(wall);
-                        wall->setPos(800/52*j, 800/52*i);
-                    }else{
-                        Wall *wall = new Wall('s');
-                        addItem(wall);
-                        wall->setPos(800/52*j, 800/52*i);
-                    }
-                }
+
+void Level::setTankRemainsVector(const vector<vector<char> > &tankRemains)
+{
+    tanks = tankRemains;
+}
+
+const vector<vector<char> > &Level::getTankRemainsVector() const
+{
+    return tanks;
+}
+
+void Level::generateEnemy(int level)
+{
+    //用connect,當timeout就生成一隻tank
+    getTankRemainsVector();
+    Enemy *enemy= new Enemy(tanks[level-1][0]);
+
+    //並將其從vector裡刪除
+    tanks[level-1].erase(tanks[level-1].begin());
+    setTankRemainsVector(tanks);
+
+    remains--;
+    showSurvivor(remains);
+}
+
+/* //還沒搞定，上面應該有bug
+void Level::showSurvivor(int remains)
+{
+    //生成初始ramaining survivors，共20台，10*2
+    for (int i=1; i<=remains; i++){
+        for (int j=1; j<=2; j++){
+            if(i%2==1 && i==remains){
+
+                survivors = new QGraphicsPixmapItem(QPixmap(":/Images/Enemies/Remains.png"));
+                survivors->setPos(740+i*10, 60+j*5);
+                addItem(survivors);
             }
+
         }
-        //layer 2
-        for(int i=1; i<=2; i++){
-            for(int j=1; j<=52; j++){
-                if(j==17 || j==33){
-                    Wall *wall = new Wall('b');
-                    addItem(wall);
-                    wall->setPos(800/52*j, 800/52+800/52*i);
-                }
-            }
-        }
-
-
-
-        //layer 3
-
-    }else{      //map 28但要加上河流呵呵
-
     }
+}
 */
-}
-
-void Level::generateEnemy()
-{
-    showSurvivor();
-}
-
-
-void Level::showSurvivor()
-{
-    if(){   //每出現一個tank就要刪除一個，484要改成connect會比較好
-        removeItem(survivors);
-        //一個一個刪除的方式還沒寫，想不到哈哈哈哈哈
-    }
-
-}
