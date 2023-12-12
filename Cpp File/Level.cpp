@@ -4,15 +4,13 @@
 #include "Enemy.h"
 
 Level::Level(int level, int number)
+    :remains(20),
+    tanks({{'f', 'f', 'f', 'f', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'b', 'b', 'b', 'b', 'p', 'p', 'p', 'p'},
+           {'p', 'p', 'p', 'p', 'f', 'f', 'f', 'f', 'f', 'f', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'b', 'b'}})
 {
     setPlayer(number); //決定幾個玩家並生成在初始位置 //到底是給誰寫?
     generateMap(level);
     showSurvivor(remains);
-
-    vector<vector<char>> tanks = {
-        {'f', 'f', 'f', 'f', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'b', 'b', 'b', 'b', 'p', 'p', 'p', 'p'},
-        {'p', 'p', 'p', 'p', 'f', 'f', 'f', 'f', 'f', 'f', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'b', 'b'}
-    };
     setTankRemainsVector(tanks);
 
     //定時生成enemy(call generateEnemy)
@@ -21,7 +19,6 @@ Level::Level(int level, int number)
         generateEnemy(level);
     });
     spawnTimer->start(2000);
-
 }
 
 void Level::setPlayer(int number)
@@ -184,24 +181,31 @@ void Level::generateEnemy(int level)
     tanks[level-1].erase(tanks[level-1].begin());
     setTankRemainsVector(tanks);
 
-    remains--;
-    showSurvivor(remains);
+    showSurvivor(--remains);
 }
 
-/* //還沒搞定，上面應該有bug
+
 void Level::showSurvivor(int remains)
 {
+    int x=740;
+    int y=60;
     //生成初始ramaining survivors，共20台，10*2
-    for (int i=1; i<=remains; i++){
+    for (int i=1; i<=remains/2; i++){
         for (int j=1; j<=2; j++){
-            if(i%2==1 && i==remains){
-
-                survivors = new QGraphicsPixmapItem(QPixmap(":/Images/Enemies/Remains.png"));
-                survivors->setPos(740+i*10, 60+j*5);
-                addItem(survivors);
-            }
-
+            survivors = new QGraphicsPixmapItem(QPixmap(":/Images/Enemies/Remains.png"));
+            survivors->setPos(x, y);
+            addItem(survivors);
+            x+=10;
+            y+=40;
         }
+        x-=20;
     }
+    //處理最後一排(mod為奇數時進入)
+    for (int k = 1; k <= remains % 2; k++) {
+        y+=40;
+        survivors = new QGraphicsPixmapItem(QPixmap(":/Images/Enemies/Remains.png"));
+        survivors->setPos(x, y);
+        addItem(survivors);
+    }
+    //還要寫個刪除所有圖片的
 }
-*/
