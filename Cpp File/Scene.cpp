@@ -4,18 +4,18 @@
 #include <QDebug>
 
 Scene::Scene(QObject *parent):
-    gameOn(false), score(0), bestScore(20000),level(0),
+    gameOn(false), score(0), bestScore(20000),level(1),
     scoreTextItem(nullptr)
 {
-    battleCityBigWord = new QGraphicsPixmapItem(QPixmap(":/images/Battlecity_bigword.jpg"));
+    battleCityBigWord = new QGraphicsPixmapItem(QPixmap(":/images/Homepage/Battlecity_bigword.jpg"));
     addItem(battleCityBigWord);
     battleCityBigWord->setPos(215,150);
 
-    onePlayer = new QGraphicsPixmapItem(QPixmap(":/images/Oneplayer.jpg"));
+    onePlayer = new QGraphicsPixmapItem(QPixmap(":/images/Homepage/Oneplayer.jpg"));
     addItem(onePlayer);
     onePlayer->setPos(300,350);
 
-    twoPlayer = new QGraphicsPixmapItem(QPixmap(":/images/Twoplayer.jpg"));
+    twoPlayer = new QGraphicsPixmapItem(QPixmap(":/images/Homepage/Twoplayer.jpg"));
     addItem(twoPlayer);
     twoPlayer->setPos(300,400);
     //到時候從setplayer那邊印跟選擇
@@ -38,9 +38,15 @@ Scene::~Scene()
 
 }
 
-void Scene::setPlayer(int player)
+void Scene::setPlayer(int newplayer)
 {
+    player = newplayer;
     //看傳來的player有幾位決定做什麼事
+}
+
+int Scene::getPlayer()
+{
+    return player;
 }
 
 void Scene::startGame()
@@ -63,7 +69,19 @@ void Scene::setGameOn(bool newGameOn)
 void Scene::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_X) {
-        level++;
+        if(level<2){
+            level++;
+        }
+        setLevel();
+    }
+    if (event->key() == Qt::Key_Z) {
+        if(level>1){
+           level--;
+        }
+        setLevel();
+    }
+    if (event->key() == Qt::Key_Return) { // Enter鍵
+        emit changeLevel();
     }
     QGraphicsScene::keyPressEvent(event);
 }
@@ -93,7 +111,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void Scene::setLevel()
 {
-    levelChose = new QGraphicsPixmapItem(QPixmap(":/images/Level_chose.png"));
+    levelChose = new QGraphicsPixmapItem(QPixmap(":/images/Homepage/Level_chose.png"));
     addItem(levelChose);
     qreal scale = 3.0;
     levelChose->setScale(scale);
@@ -111,4 +129,9 @@ void Scene::setLevel()
     addItem(levelTextItem);
 
     levelTextItem->setPos(275,275);
+}
+
+int Scene::getLevel()
+{
+    return level;
 }

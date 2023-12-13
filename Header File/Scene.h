@@ -14,11 +14,14 @@ public:
     void startGame();
     bool getGameOn() const;
     void setGameOn(bool newGameOn);
-    void setPlayer(int player);
+    void setPlayer(int newplayer);
+    int getPlayer();
     void setLevel();
+    int getLevel();
 
 
 signals:
+    void changeLevel();
 
 private:
     bool gameOn;

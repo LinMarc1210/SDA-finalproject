@@ -29,8 +29,8 @@ public slots:
     void generateEnemy(int level);
 
 private:
-    //    int level;    //等級
-    //    int number;   //player人數
+    int level;    //等級
+    int number;   //player人數
     int remains;
     vector<vector<char>> tanks;
 

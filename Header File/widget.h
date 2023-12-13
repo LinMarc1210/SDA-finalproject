@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <Scene.h>
+#include <Level.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -21,6 +22,7 @@ private slots:
 
 private:
     Ui::Widget *ui;
-    Scene *scene;//Scene的物件
+    Scene *scene; //Scene的物件
+    Level *level; //Level的物件
 };
 #endif // WIDGET_H
