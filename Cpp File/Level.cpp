@@ -1,7 +1,6 @@
-#include "Level.h"
 #include "Wall.h"
 #include "Flag.h"
-#include "Enemy.h"
+#include "Level.h"
 
 Level::Level(int level, int number)
     :remains(20),
@@ -24,15 +23,15 @@ Level::Level(int level, int number)
 void Level::setPlayer(int number)
 {
     if(number==1){
-        player1 = new QGraphicsPixmapItem(QPixmap(":/Images/Players/Player1.png"));
+        player1 = new QGraphicsPixmapItem(QPixmap(":/images/Player1_new.png"));
         player1->setPos(200, 550);
         addItem(player1);
     }else{
-        player1 = new QGraphicsPixmapItem(QPixmap(":/Images/Players/Player1.png"));
+        player1 = new QGraphicsPixmapItem(QPixmap(":/images/Player1_new.png"));
         player1->setPos(200, 550);
         addItem(player1);
 
-        player2 = new QGraphicsPixmapItem(QPixmap(":/Images/Players/Player1.png"));
+        player2 = new QGraphicsPixmapItem(QPixmap(":/images/Player2.png"));
         player2->setPos(600, 550);
         addItem(player2);
     }
@@ -43,7 +42,7 @@ void Level::generateMap(int level)
     //map 19
     vector<string> data;
 
-    if (level == 1) {        
+    if (level == 1) {
         data = {
             "****####****####****####****####****####****####****",//layer1
             "****####****####****####****####****####****####****",
@@ -175,7 +174,7 @@ void Level::generateEnemy(int level)
 {
     //用connect,當timeout就生成一隻tank
     getTankRemainsVector();
-    Enemy *enemy= new Enemy(tanks[level-1][0]);
+    //Enemy *enemy= new Enemy(tanks[level-1][0]);
 
     //並將其從vector裡刪除
     tanks[level-1].erase(tanks[level-1].begin());
@@ -184,7 +183,7 @@ void Level::generateEnemy(int level)
     showSurvivor(--remains);
 }
 
-
+//還要寫個刪除所有圖片的
 void Level::showSurvivor(int remains)
 {
     int x=740;
@@ -207,5 +206,4 @@ void Level::showSurvivor(int remains)
         survivors->setPos(x, y);
         addItem(survivors);
     }
-    //還要寫個刪除所有圖片的
 }

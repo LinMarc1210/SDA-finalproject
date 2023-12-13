@@ -1,6 +1,7 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
+//#include "Enemy.h"
 #include <vector>
 #include <QTimer>
 #include <QObject>
@@ -13,13 +14,13 @@ class Level : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    Level(int level, int number);
+    Level(int =0, int =0); //接收scene傳來的level跟number of players
     void setPlayer(int number);
     void generateMap(int level);
     bool gamePause();//目前不寫
     void saveGame(); //目前不知怎麼搞
     void showGameover();//最後再寫
-    void showSurvivor(int remains);
+    void showSurvivor(int remains);     //生成畫面右邊的坦克剩餘圖
 
     void setTankRemainsVector(const vector<vector<char>>& tankRemains);
     const vector<vector<char>>& getTankRemainsVector() const;
@@ -28,9 +29,9 @@ public slots:
     void generateEnemy(int level);
 
 private:
-//    int level;
-//    int number;
-    int remains =20;
+    //    int level;    //等級
+    //    int number;   //player人數
+    int remains;
     vector<vector<char>> tanks;
 
     QGraphicsPixmapItem *survivors;
@@ -38,6 +39,7 @@ private:
     QGraphicsPixmapItem *player2;
 
     QTimer *spawnTimer;
+
 };
 
 
