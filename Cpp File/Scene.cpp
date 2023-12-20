@@ -18,6 +18,13 @@ Scene::Scene(QObject *parent):
     twoPlayer = new QGraphicsPixmapItem(QPixmap(":/images/Homepage/Twoplayer.jpg"));
     addItem(twoPlayer);
     twoPlayer->setPos(300,400);
+
+    playerChose = new QGraphicsPixmapItem(QPixmap(":/images/Players/Player1.png"));
+    addItem(playerChose);
+    qreal scale = 0.5;
+    playerChose->setScale(scale);
+    playerChose->setPos(250,345);
+
     //到時候從setplayer那邊印跟選擇
 
 
@@ -80,6 +87,23 @@ void Scene::keyPressEvent(QKeyEvent *event)
         }
         setLevel();
     }
+    if (event->key() == Qt::Key_Shift) {
+        pos = playerChose->pos();
+        if (pos == QPoint(250, 345)) {
+           playerChose->setPos(250, 400);
+        } else {
+           playerChose->setPos(250, 345);
+        }
+    }//Shift選關
+    if (event->key() == Qt::Key_Space) {
+        if (pos == QPoint(250, 345)) {
+           setPlayer(1);
+           setLevel();
+        } else {
+           setPlayer(2);
+           setLevel();
+        }
+    }//按空白鍵開始
     if (event->key() == Qt::Key_Return) { // Enter鍵
         emit changeLevel();
     }
