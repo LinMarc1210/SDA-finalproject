@@ -239,7 +239,6 @@ void Level::generateEnemy(int level)
         qDebug()<<"finish deleting";
         spawnTimer->stop();
     }
-
     //showSurvivor(--remains);
 }
 
