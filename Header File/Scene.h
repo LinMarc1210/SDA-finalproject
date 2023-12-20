@@ -29,12 +29,14 @@ private:
     int bestScore;
     int player;
     int level;
+    QPointF pos ;
 
     //在QGraphicsScene中就有PixmapItem, TextItem
     QGraphicsPixmapItem *battleCityBigWord;
     QGraphicsPixmapItem *onePlayer;
     QGraphicsPixmapItem *twoPlayer;
     QGraphicsPixmapItem *levelChose;
+    QGraphicsPixmapItem *playerChose;
     QGraphicsTextItem *scoreTextItem;
     QGraphicsTextItem *levelTextItem;
 
