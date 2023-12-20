@@ -228,8 +228,17 @@ void Level::generateEnemy(int level)
     //Enemy *enemy= new Enemy(tanks[level-1][0]);
 
     //並將其從vector裡刪除
-    tanks[level-1].erase(tanks[level-1].begin());
-    setTankRemainsVector(tanks);
+    if(!tanks[level-1].empty())
+    {
+        qDebug()<<"delete picture...";
+        tanks[level-1].erase(tanks[level-1].begin());
+        setTankRemainsVector(tanks);
+    }
+    else
+    {
+        qDebug()<<"finish deleting";
+        spawnTimer->stop();
+    }
 
     //showSurvivor(--remains);
 }
