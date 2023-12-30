@@ -26,8 +26,6 @@ Scene::Scene(QObject *parent):
     playerChose->setPos(250,345);
 
     //到時候從setplayer那邊印跟選擇
-
-
     scoreTextItem = new QGraphicsTextItem();
     QString htmlString = "<p> I- : " + QString::number(score) + " HI- : " + QString::number(bestScore) + " </p>";
     QFont font("Consolas", 20, QFont::Bold);
@@ -47,13 +45,13 @@ Scene::~Scene()
 
 void Scene::setPlayer(int newplayer)
 {
-    player = newplayer;
+    number = newplayer;
     //看傳來的player有幾位決定做什麼事
 }
 
 int Scene::getPlayer()
 {
-    return player;
+    return number;
 }
 
 void Scene::startGame()
@@ -83,25 +81,26 @@ void Scene::keyPressEvent(QKeyEvent *event)
     }
     if (event->key() == Qt::Key_Z) {
         if(level>1){
-           level--;
+            level--;
         }
         setLevel();
     }
     if (event->key() == Qt::Key_Shift) {
         pos = playerChose->pos();
         if (pos == QPoint(250, 345)) {
-           playerChose->setPos(250, 400);
+            playerChose->setPos(250, 400);
         } else {
-           playerChose->setPos(250, 345);
+            playerChose->setPos(250, 345);
         }
     }//Shift選關
     if (event->key() == Qt::Key_Space) {
+        pos = playerChose->pos();
         if (pos == QPoint(250, 345)) {
-           setPlayer(1);
-           setLevel();
+            setPlayer(1);
+            setLevel();
         } else {
-           setPlayer(2);
-           setLevel();
+            setPlayer(2);
+            setLevel();
         }
     }//按空白鍵開始
     if (event->key() == Qt::Key_Return) { // Enter鍵
@@ -141,7 +140,6 @@ void Scene::setLevel()
     levelChose->setScale(scale);
     levelChose->setPos(0,0);
 
-
     levelTextItem = new QGraphicsTextItem();
     QString htmlString = "<p> STAGE : " + QString::number(level);
     //感覺要用timer去更新選擇level
@@ -151,7 +149,6 @@ void Scene::setLevel()
     levelTextItem->setFont(font);
     levelTextItem->setDefaultTextColor(Qt::white);
     addItem(levelTextItem);
-
     levelTextItem->setPos(275,275);
 }
 
