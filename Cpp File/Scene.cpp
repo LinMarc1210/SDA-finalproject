@@ -7,6 +7,7 @@ Scene::Scene(QObject *parent):
     gameOn(false), score(0), bestScore(20000),level(1),
     scoreTextItem(nullptr)
 {
+
     battleCityBigWord = new QGraphicsPixmapItem(QPixmap(":/images/Homepage/Battlecity_bigword.jpg"));
     addItem(battleCityBigWord);
     battleCityBigWord->setPos(215,150);
@@ -24,6 +25,7 @@ Scene::Scene(QObject *parent):
     qreal scale = 0.5;
     playerChose->setScale(scale);
     playerChose->setPos(250,345);
+    pos = playerChose->pos();
 
     //到時候從setplayer那邊印跟選擇
     scoreTextItem = new QGraphicsTextItem();
@@ -73,39 +75,47 @@ void Scene::setGameOn(bool newGameOn)
 
 void Scene::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_X) {
-        if(level<2){
-            level++;
-        }
-        setLevel();
-    }
-    if (event->key() == Qt::Key_Z) {
-        if(level>1){
-            level--;
-        }
-        setLevel();
-    }
-    if (event->key() == Qt::Key_Shift) {
-        pos = playerChose->pos();
-        if (pos == QPoint(250, 345)) {
-            playerChose->setPos(250, 400);
-        } else {
-            playerChose->setPos(250, 345);
-        }
-    }//Shift選關
-    if (event->key() == Qt::Key_Space) {
-        pos = playerChose->pos();
-        if (pos == QPoint(250, 345)) {
-            setPlayer(1);
+    if (!isChooseStage){
+        if (event->key() == Qt::Key_Shift) {
+            pos = playerChose->pos();
+            if (pos == QPoint(250, 345)) {
+                playerChose->setPos(250, 400);
+            } else {
+                playerChose->setPos(250, 345);
+            }
+            pos = playerChose->pos();  // 更新 pos 選擇的
+        }//Shift選關
+        if (event->key() == Qt::Key_Return) {    // 還在主畫面時按enter
+            if (pos == QPoint(250, 345)) {
+                setPlayer(1);
+            } else {
+                setPlayer(2);
+            }
+            isChooseStage = true;
             setLevel();
-        } else {
-            setPlayer(2);
+        }//按Enter決定幾player
+    }
+    else   // 進入選關畫面了
+    {
+        if (event->key() == Qt::Key_X) {
+            if(level<2){
+                level++;
+            }
             setLevel();
         }
-    }//按空白鍵開始
-    if (event->key() == Qt::Key_Return) { // Enter鍵
-        emit changeLevel();
+        if (event->key() == Qt::Key_Z) {
+            if(level>1){
+                level--;
+            }
+            setLevel();
+        }
+        if (event->key() == Qt::Key_Return) {    // 選關時按enter
+            emit changeLevel();
+        }
     }
+
+
+
     QGraphicsScene::keyPressEvent(event);
 }
 

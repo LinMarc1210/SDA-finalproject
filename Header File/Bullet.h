@@ -19,7 +19,21 @@ public:
     bool getState();
     int bullet_speed;
 
+    void setBulletSpeed(int speed)
+    {
+        bullet_speed= speed;
+    }
+    int getBulletSpeed()
+    {
+        return bullet_speed;
+    }
 
+    int getOriginalBulletSpeed() const
+    {
+        return originalBulletSpeed;
+    }
+
+    void moveHelper();
 
 public slots:
     void move();
@@ -33,6 +47,7 @@ private:
     int current_player_Direction;
     int current_tank_Direction;
     bool state = true;
+    int originalBulletSpeed;
 };
 
 #endif // BULLET_H

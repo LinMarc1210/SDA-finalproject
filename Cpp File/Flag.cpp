@@ -9,14 +9,11 @@
 Flag::Flag()
 {
     state = true;
-    setPixmap(QPixmap(":/image/flag.png"));
-    // setPos(rand() % int(800 - boundingRect().width()), rand() % int(600 - boundingRect().height()));    //food 位置隨機出現
+    setPixmap(QPixmap(":/images/Flag/flag.png").scaled(45,45));  // 一格wall的4倍大小
 
-    // 呼叫 gameOver，使得其可以被吃
-    // 檢查速度和移動速度不能差太多，避免位置產生問題（圖片重疊）
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Flag::gameOver);
-    timer->start(100);
+    timer->start(1);
 }
 
 void Flag::setState(bool alive)
@@ -33,18 +30,15 @@ void Flag::gameOver()
 {
     // 先取得兩者相碰的清單
     QList<QGraphicsItem *> colliding_items = collidingItems();
-    // qDebug() << colliding_items;
     foreach (QGraphicsItem *item, colliding_items) {
         // 如果是一個 Bullet 物件，則可以轉型出一個 Bullet pointer
         Bullet *bullet = dynamic_cast<Bullet*> (item);
         // 如果錦旗被打，發出一個訊號通知
         if (bullet) {
             state = false;
-            //emit: 用來發出 signal 通知 Scene
-            emit hitByEnemy(this, bullet);
-            scene()->removeItem(this);
+            setPixmap(QPixmap(":/images/Flag/diedflag.png").scaled(45,45));  // 一格wall的4倍大小
+            emit flagIsDestroyed(this, bullet);
             qDebug() << "Game over...";
-            delete this;
         }
     }
 }

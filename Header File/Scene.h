@@ -18,19 +18,22 @@ public:
     int getPlayer();
     void setLevel();
     int getLevel();
-
-
+    int number;
+    void setBestScore(int bestScore)
+    {
+        score = bestScore;
+    }
 signals:
     void changeLevel();
 
 private:
+    bool isChooseStage = false;
     bool gameOn;
     int score;
     int bestScore;
-    int player;
+    //int player;
     int level;
     QPointF pos ;
-
     //在QGraphicsScene中就有PixmapItem, TextItem
     QGraphicsPixmapItem *battleCityBigWord;
     QGraphicsPixmapItem *onePlayer;

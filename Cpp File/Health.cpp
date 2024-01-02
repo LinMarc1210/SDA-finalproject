@@ -1,31 +1,25 @@
-#include "Health.h"
+#include "health.h"
+
 #include <QFont>
 
-Health::Health()
-{
-    health = 2;
-
-    setPlainText(QString::number(health));   //文字內容
-    setDefaultTextColor(Qt::white);       //顏色
-    setFont(QFont("times", 16));        //字體、字型大小
+Health::Health() {
+    // Initialize the score to zero
+    health = 3;
+    // Draw the score
+    setPlainText("Health: " + QString::number(health));
+    setDefaultTextColor(Qt::blue);
+    setFont(QFont("times", 16)); // name, size
 }
-
-void Health::increase()
-{
-    // 吃到道具加血
+void Health::increase() {
     health++;
-    setPlainText(QString::number(health));   //文字內容
+    setPlainText("Health: " + QString::number(health));
 }
 
-void Health::decrease()
-{
-    // 被打中扣血
-    // Level 判斷若是變成 -1，就 gameOver
+void Health::decrease() {
     health--;
-    setPlainText(QString::number(health));   //文字內容
+    setPlainText("Health: " + QString::number(health));
 }
 
-int Health::getHealth()
-{
+int Health::getHealth() {
     return health;
 }

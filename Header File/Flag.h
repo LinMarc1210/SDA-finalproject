@@ -20,12 +20,13 @@ public slots:
     void gameOver(); // 檢查有沒有被打到
 
 signals:
-    void hitByEnemy(Flag *flag, Bullet *bullet);
+    void flagIsDestroyed(Flag *flag, Bullet *bullet);
     // 自己的子彈打到也算
 
 private:
     bool state;
     QTimer *timer;
+
 };
 
 #endif // FLAG_H

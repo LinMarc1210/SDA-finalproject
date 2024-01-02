@@ -7,11 +7,13 @@ class Health : public QGraphicsTextItem
 {
 public:
     Health();
-    void increase();     // buff
-    void decrease();     // setter
-    int getHealth();     // getter
-
+    void decrease();
+    void increase();
+    int getHealth();
 private:
     int health;
 };
+
+
 #endif // HEALTH_H
+

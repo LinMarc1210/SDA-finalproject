@@ -6,9 +6,11 @@
 #include "player.h"
 #include "player2.h"
 
-Bullet::Bullet(int speed)
+Bullet::Bullet(int speed): bullet_speed(speed), originalBulletSpeed(speed)
 {
     setPixmap(QPixmap(":/images/Bullet/bullet.png").scaled(12,28));
+    moveHelper();
+
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Bullet::move);
     timer->start(50); // fires every 50ms
@@ -24,10 +26,20 @@ void Bullet::move() {
             emit bulletHitsEnemy(this, enemy);
             return; // important
         }
-
-
     }
 
+    moveHelper();
+
+    if (y() + boundingRect().height() < 0 ||y() + boundingRect().height() >800
+        ||x() + boundingRect().height() < 0||x() + boundingRect().height() >800) {
+        // Remove the bullet from the scene first
+        scene()->removeItem(this);
+        delete this;
+        // qDebug() << "Bullet deleted...";
+    }
+}
+
+void Bullet::moveHelper(){
     setTransformOriginPoint(boundingRect().center());
     if(current_player_Direction == 1){
         setRotation(-90);
@@ -44,14 +56,6 @@ void Bullet::move() {
     else if(current_player_Direction == 4){
         setRotation(180);
         setPos(x(), y()+bullet_speed);
-    }
-
-    if (y() + boundingRect().height() < 0 ||y() + boundingRect().height() >800
-        ||x() + boundingRect().height() < 0||x() + boundingRect().height() >800) {
-        // Remove the bullet from the scene first
-        scene()->removeItem(this);
-        delete this;
-        // qDebug() << "Bullet deleted...";
     }
 }
 
@@ -104,4 +108,3 @@ bool Bullet::getState()
 {
     return state;
 }
-

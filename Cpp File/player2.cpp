@@ -1,6 +1,7 @@
 #include "player2.h"
+#include <QKeyEvent>
 
 Player2::Player2()
 {
-    setPixmap(QPixmap(":/images/player2.png"));
+    setPixmap(QPixmap(":/images/Players/Player2.png").scaled(40,40));
 }

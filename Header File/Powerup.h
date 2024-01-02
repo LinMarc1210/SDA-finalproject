@@ -3,27 +3,21 @@
 
 #include <QGraphicsPixmapItem>
 
-class PowerUp : public QGraphicsPixmapItem {
+class Powerup : public QGraphicsPixmapItem {
 public:
-    PowerUp(QGraphicsItem *parent = nullptr);
+    Powerup(QGraphicsItem *parent = nullptr);
     int getType() const {
         return type;
     }
+    int type ;
 public slots:
     void collected();
 
 private:
     QPixmap generatePixmap();
 
-
-    int type; // Add any additional data members as needed
 protected:
-    void applyGrenadeEffect();
-    void applyHelmetEffect();
-    void applyShovelEffect();
-    void applyStarEffect();
-    void applyTankEffect();
-    void applyTimerEffect();
+
 
 };
 

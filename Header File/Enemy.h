@@ -19,18 +19,37 @@ public:
     int moveSpeed;
     int bulletSpeed;
     int hits; // 被射擊的次數
+    QPointF getCurPos() const;
+    void setCurPos(QPointF newCurPos);
+    bool checkEnemyWallCollision(QPointF nextPos);
 
+    int getBulletSpeed()
+    {
+        return bulletSpeed;
+    }
+    void setBulletSpeed(int shoot)
+    {
+        bulletSpeed = shoot;
+    }
+    void setMoveSpeed(int speed)
+    {
+        moveSpeed = speed;
+    }
+    int getMoveSpeed()
+    {
+        return moveSpeed;
+    }
 
-signals:
-    void enemyHitsTheGround(Enemy *enemy);
 
 public slots:
     void move();
 
 private:
+    QPointF curPos;
     QTimer *timer;
     Enemy *enemy;
     int moveDistance;
+
 };
 
 #endif // ENEMY_H
